@@ -1,0 +1,178 @@
+import java.util.*;
+
+class TestClass {
+    public static void main(String args[] ) throws Exception {
+        // Write your code here
+ 
+        Scanner s = new Scanner(System.in);
+        int test=s.nextInt();
+        
+        while(test-->0){
+            int steps =s.nextInt();
+            String str=s.next();
+            coordinates(str);
+        }
+    }
+    
+    private static void coordinates(String str){
+        int down=0,left=0,right=0,up=0;
+        String[] dir={"up","left","down","right"};
+        int[] dire={0,0,0,0};
+        int val=0;
+        for(char ch:str.toCharArray()){
+            switch(ch){
+                case 'L':
+                    val=++val%4;
+                    break;
+                case 'R':
+                    if(val==0)
+                        val=3;
+                    else
+                        val=--val;
+                    break;
+                case 'M':
+                    dire[val]++;
+                    break;
+            }
+        }
+       // System.out.println(Arrays.toString(dire));
+        int x=dire[3]-dire[1];
+        int y=dire[0]-dire[2];
+       // System.out.println(x+" "+y);
+         
+        pathTo(x,y,""); 
+    }
+    
+    private static void pathTo(int x,int y,String s){
+        //System.out.println("it"+x+" "+y);
+        int absx=Math.abs(x),absy=Math.abs(y);
+        if(x>0 && y>0){
+            if(absx>absy){
+                char[] repeat = new char[absx-absy];
+                Arrays.fill(repeat, '6');
+                s += new String(repeat);
+                x=y;
+                pathTo(x,y,s); 
+            }
+            else if(absy>absx){
+                char[] repeat = new char[absy-absx];
+                Arrays.fill(repeat, '5');
+                s += new String(repeat);
+                y=x;
+                pathTo(x,y,s);
+            }
+            else{
+                char[] repeat = new char[absx];
+                Arrays.fill(repeat, '1');
+                s += new String(repeat);
+                printResult(s);
+            }
+        }
+        else if(x<0 && y>0){
+            if(absx>absy){
+                char[] repeat = new char[absx-absy];
+                Arrays.fill(repeat, '8');
+                s += new String(repeat);
+                x=0-y;
+                pathTo(x,y,s); 
+            }
+            else if(absy>absx){
+                char[] repeat = new char[absy-absx];
+                Arrays.fill(repeat, '5');
+                s += new String(repeat);
+                y=absx;
+                pathTo(x,y,s);
+            }
+            else{
+                char[] repeat = new char[absx];
+                Arrays.fill(repeat, '4');
+                s += new String(repeat);
+                printResult(s);
+            }
+        }
+        else if(x<0 && y<0){
+            if(absx>absy){
+                char[] repeat = new char[absx-absy];
+                Arrays.fill(repeat, '8');
+                s += new String(repeat);
+                x=y;
+                pathTo(x,y,s); 
+            }
+            else if(absy>absx){
+                 char[] repeat = new char[absy-absx];
+                Arrays.fill(repeat, '7');
+                s += new String(repeat);
+                y=x;
+                pathTo(x,y,s);
+            }
+            else{
+                char[] repeat = new char[absx];
+                Arrays.fill(repeat, '3');
+                s += new String(repeat);
+                printResult(s);
+            }
+        }
+        else if(x>0 && y<0){
+            if(absx>absy){
+                 char[] repeat = new char[absx-absy];
+                Arrays.fill(repeat, '6');
+                s += new String(repeat);
+                x=absy;
+                pathTo(x,y,s); 
+            }
+            else if(absy>absx){
+                 char[] repeat = new char[absy-absx];
+                Arrays.fill(repeat, '7');
+                s += new String(repeat);
+                y=0-x;
+                pathTo(x,y,s);
+            }
+            else{
+                char[] repeat = new char[absx];
+                Arrays.fill(repeat, '2');
+                s += new String(repeat);
+                printResult(s);
+            }
+        }
+        else if(x==0 && y==0){
+            printResult(s);
+        }
+        else if(x==0 && y>0){
+            char[] repeat = new char[absy];
+            Arrays.fill(repeat, '5');
+            s += new String(repeat);
+            printResult(s);
+        }
+        else if(x==0 && y<0){
+            char[] repeat = new char[absy];
+            Arrays.fill(repeat, '7');
+            s += new String(repeat);
+            printResult(s);
+        }
+        else if(x>0 && y==0){
+        char[] repeat = new char[absx];
+                Arrays.fill(repeat, '6');
+                s += new String(repeat);
+            printResult(s);
+        }
+        else if(x<0 && y==0){
+            char[] repeat = new char[absx];
+            Arrays.fill(repeat, '8');
+            s += new String(repeat);
+            printResult(s);
+        }
+      
+    }
+    
+    static void printResult(String s){
+          StringBuilder input = new StringBuilder();
+ 
+        // append a string into StringBuilder input1
+        input.append(s);
+ 
+        // reverse StringBuilder input1
+        input = input.reverse();
+        input.append("0");
+        System.out.println(input);
+    }
+}
